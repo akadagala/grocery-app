@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <title>Meal Plan</title>
+    </head>
+    <body>
+        <%- include('header'); %>
+        <div id="myDIV" class="header">
+            <h2 style="margin:5px">meal plan</h2>
+        </div>
+
+        <ul id="list">
+            <li style="text-align: center; padding: 12px 8px 8px 12px;">sunday: <%= mealsList["sunday"] %></li>
+            <li style="text-align: center; padding: 12px 8px 8px 12px;">monday: <%= mealsList["monday"] %></li>
+            <li style="text-align: center; padding: 12px 8px 8px 12px;">tuesday: <%= mealsList["tuesday"] %></li>
+            <li style="text-align: center; padding: 12px 8px 8px 12px;">wednesday: <%= mealsList["wednesday"] %></li>
+            <li style="text-align: center; padding: 12px 8px 8px 12px;">thursday: <%= mealsList["thursday"] %></li>
+            <li style="text-align: center; padding: 12px 8px 8px 12px;">friday: <%= mealsList["friday"] %></li>
+            <li style="text-align: center; padding: 12px 8px 8px 12px;">saturday: <%= mealsList["saturday"] %></li>
+        </ul>
+    </body>
+</html>

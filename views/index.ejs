@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <title>Groceries</title>
+    </head>
+    <body>
+        <%- include('header'); %>
+        <div id="myDIV" class="header">
+            <h2 style="margin:5px">our grocery list</h2>
+            <form method="POST" action="/addItem">
+                <input type="text" id="item" name="item">
+                <input type="submit" value="add" class="addBtn"> 
+              </form>
+        </div>
+
+        <ul id="list"> 
+            <% Object.keys(items).forEach(function(item) { %>
+                <% if(items[item] == 0){ %>
+                    <li id="<%= item %>"><%= item %><span class="close" onclick="location='http://localhost:5000/removeItem?item=<%= item %>'">x</span></li>
+                <% } else{ %>  
+                    <li id="<%= item %>" class="checked"><%= item %><span class="close" onclick="location='http://localhost:5000/removeItem?item=<%= item %>'">x</span></li>
+                 <% } %>  
+            <% }); %>
+        </ul>
+
+        <script>
+            var list = document.querySelector('ul');
+            list.addEventListener('click', function(ev) {
+                if (ev.target.tagName === 'LI') {
+                    ev.target.classList.toggle('checked');
+                }
+                var item = ev.target.innerText;
+                fetch("http://localhost:5000/check?item=" + item.substring(0, item.length-1));
+            }, false);
+        </script>
+    </body>
+</html>
