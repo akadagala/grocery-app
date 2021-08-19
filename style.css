@@ -139,6 +139,7 @@ body {
     cursor: pointer;
     transition: 0.3s;
     border-radius: 0;
+    -webkit-appearance: none;
   }
   
   .addBtn:hover {
