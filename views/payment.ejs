@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <title>Payment</title>
+    </head>
+    <body>
+        <%- include('header'); %>
+        <div id="myDIV" class="header">
+            <h2 style="margin:5px">payment</h2>
+            <form method="POST" action="/addPayment">
+                <input class="paymentInput" type="text" id="item" name="item" placeholder="what?"> 
+                <input class="paymentInput" type="text" id="value" name="value" placeholder="how much?">
+                <input class="paymentInput" type="text" id="who" name="who" placeholder="who fronted?">
+                <input type="submit" value="add" class="addBtn"> 
+            </form>
+        </div>
+
+        <ul id="list">
+            <li style="text-align: center; padding: 12px 8px 8px 12px;">test</li>
+        </ul>
+    </body>
+</html>

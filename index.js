@@ -32,6 +32,7 @@ app.get('/', (req, res) => {
     //res.sendFile('index.js', {root: __dirname});     // keeping this for any possible future reference
 });
 
+// Route handler for GET requests to the mealplan page ("/mealplan")
 app.get('/mealplan', (req, res) => {  
     var mealsList = {};
     connection.execute('SELECT * FROM meal_plan', function (error, results, fields) {
@@ -41,8 +42,10 @@ app.get('/mealplan', (req, res) => {
         }); 
         res.render("mealplan", {mealsList: mealsList});
     }); 
-    //res.sendFile('index.html', {root: __dirname});   // keeping this for any possible future reference  
-    //res.sendFile('index.js', {root: __dirname});     // keeping this for any possible future reference
+});
+
+app.get('/payment', (req, res) => {  
+    res.render("payment"); 
 });
 
 // Route handler for POST requests to "/addItem"
@@ -80,5 +83,5 @@ app.listen(port, () => {
 // Configure our app to use ejs views
 app.set('view engine', 'ejs');
 
-// Configure out app to use any additional files in the working directory (ex: css sheets, etc)
+// Configure our app to use any additional files in the working directory (ex: css sheets, etc)
 app.use(express.static(__dirname));
