@@ -9,7 +9,7 @@ const port = 5000;
 var config = {
     user: 'root',
     password: 'akPK@@1234',
-    server: 'localhost',
+    host: 'localhost',
     database: 'groceries_app'
 };
 var connection = sql.createConnection(config);
