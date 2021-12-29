@@ -45,7 +45,24 @@ app.get('/mealplan', (req, res) => {
 });
 
 app.get('/payment', (req, res) => {  
-    res.render("payment"); 
+    var itemsList = [];     
+    connection.execute('SELECT * FROM payment', function (error, results, fields) {
+        if (error) throw error;
+        results.forEach(item => {
+            itemsList.push([item["item"], item["cost"], item["who_fronted"]]);
+        }); 
+        res.render("payment", {items: itemsList});
+    });
+});
+
+app.post('/addPayment', bodyParser, (req, res) => {  
+    var item = req.body.item;
+    var cost = req.body.cost;
+    var who_fronted = req.body.who_fronted;
+    connection.query('INSERT INTO payment (item, cost, who_fronted) VALUES(?, ?, ?)', [item, cost, who_fronted], function (error, results, fields) {
+        if (error) throw error;
+        res.redirect("/payment");
+    }); 
 });
 
 // Route handler for POST requests to "/addItem"
@@ -63,6 +80,15 @@ app.get('/removeItem', (req, res) => {
     connection.query('DELETE FROM grocery_list WHERE item=?', [item], function (error, results, fields) {
         if (error) throw error;
         res.redirect("/");
+    });
+});
+
+// Route handler for GET requests to "/removePayment", url will contain an item param and who_fronted param (?item= who_fronted=)
+app.get('/removePayment', (req, res) => {
+    var item = req.query.item;
+    connection.query('DELETE FROM payment WHERE item=?', [item], function (error, results, fields) {
+        if (error) throw error;
+        res.redirect("/payment");
     });
 });
 

@@ -12,14 +12,16 @@
             <h2 style="margin:5px">payment</h2>
             <form method="POST" action="/addPayment">
                 <input class="paymentInput" type="text" id="item" name="item" placeholder="what?"> 
-                <input class="paymentInput" type="text" id="value" name="value" placeholder="how much?">
-                <input class="paymentInput" type="text" id="who" name="who" placeholder="who fronted?">
+                <input class="paymentInput" type="text" id="cost" name="cost" placeholder="how much?">
+                <input class="paymentInput" type="text" id="who_fronted" name="who_fronted" placeholder="who fronted?">
                 <input type="submit" value="add" class="addBtn"> 
             </form>
         </div>
 
         <ul id="list">
-            <li style="text-align: center; padding: 12px 8px 8px 12px;">test</li>
+            <% items.forEach(function(item) { %>
+                <li id="<%= item[0] %>"><%= item[2] %> fronted <%= item[1] %> for <%= item[0] %><span class="close" onclick="location='http://localhost:5000/removePayment?item=<%= item[0] %>'">x</span></li> 
+            <% }); %>
         </ul>
     </body>
 </html>
