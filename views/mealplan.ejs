@@ -10,16 +10,60 @@
         <%- include('header'); %>
         <div id="myDIV" class="header">
             <h2 style="margin:5px">meal plan</h2>
+            <h3>sunday</h3>
+            <form method="POST" action="/meal?day=sunday">
+                <input class="mealPlanInput" type="text" name="meal" value="<%= mealsList[0][1] %>">
+                <input class="mealPlanInput" type="text" name="who_cooks" value="<%= mealsList[0][2] %>">
+                <input type="submit" value="submit" class="addBtn"> 
+            </form>
+            <br>
+            <br>
+            <h3>monday</h3>
+            <form method="POST" action="/meal?day=monday">
+                <input class="mealPlanInput" type="text" name="meal" value="<%= mealsList[1][1] %>">
+                <input class="mealPlanInput" type="text" name="who_cooks" value="<%= mealsList[1][2] %>">
+                <input type="submit" value="submit" class="addBtn"> 
+            </form>
+            <br>
+            <br>
+            <h3>tuesday</h3>
+            <form method="POST" action="/meal?day=tuesday">
+                <input class="mealPlanInput" type="text" name="meal" value="<%= mealsList[2][1] %>">
+                <input class="mealPlanInput" type="text" name="who_cooks" value="<%= mealsList[2][2] %>">
+                <input type="submit" value="submit" class="addBtn"> 
+            </form>
+            <br>
+            <br>
+            <h3>wednesday</h3>
+            <form method="POST" action="/meal?day=wednesday">
+                <input class="mealPlanInput" type="text" name="meal" value="<%= mealsList[3][1] %>">
+                <input class="mealPlanInput" type="text" name="who_cooks" value="<%= mealsList[3][2] %>">
+                <input type="submit" value="submit" class="addBtn"> 
+            </form>
+            <br>
+            <br>
+            <h3>thursday</h3>
+            <form method="POST" action="/meal?day=thursday">
+                <input class="mealPlanInput" type="text" name="meal" value="<%= mealsList[4][1] %>">
+                <input class="mealPlanInput" type="text" name="who_cooks" value="<%= mealsList[4][2] %>">
+                <input type="submit" value="submit" class="addBtn"> 
+            </form>
+            <br>
+            <br>
+            <h3>friday</h3>
+            <form method="POST" action="/meal?day=friday">
+                <input class="mealPlanInput" type="text" name="meal" value="<%= mealsList[5][1] %>">
+                <input class="mealPlanInput" type="text" name="who_cooks" value="<%= mealsList[5][2] %>">
+                <input type="submit" value="submit" class="addBtn"> 
+            </form>
+            <br>
+            <br>
+            <h3>saturday</h3>
+            <form method="POST" action="/meal?day=saturday">
+                <input class="mealPlanInput" type="text" name="meal" value="<%= mealsList[6][1] %>">
+                <input class="mealPlanInput" type="text" name="who_cooks" value="<%= mealsList[6][2] %>">
+                <input type="submit" value="submit" class="addBtn"> 
+            </form>
         </div>
-
-        <ul id="list">
-            <li style="text-align: center; padding: 12px 8px 8px 12px;">sunday: <%= mealsList["sunday"] %></li>
-            <li style="text-align: center; padding: 12px 8px 8px 12px;">monday: <%= mealsList["monday"] %></li>
-            <li style="text-align: center; padding: 12px 8px 8px 12px;">tuesday: <%= mealsList["tuesday"] %></li>
-            <li style="text-align: center; padding: 12px 8px 8px 12px;">wednesday: <%= mealsList["wednesday"] %></li>
-            <li style="text-align: center; padding: 12px 8px 8px 12px;">thursday: <%= mealsList["thursday"] %></li>
-            <li style="text-align: center; padding: 12px 8px 8px 12px;">friday: <%= mealsList["friday"] %></li>
-            <li style="text-align: center; padding: 12px 8px 8px 12px;">saturday: <%= mealsList["saturday"] %></li>
-        </ul>
     </body>
 </html>

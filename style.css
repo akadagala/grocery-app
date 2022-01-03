@@ -134,6 +134,11 @@ body {
     width: 24.75%;
     margin-right: .25%;
   }
+
+  .mealPlanInput {
+    width: 37%;
+    margin-right: .25%;
+  }
   
   /* Style the "Add" button */
   .addBtn {

@@ -34,13 +34,24 @@ app.get('/', (req, res) => {
 
 // Route handler for GET requests to the mealplan page ("/mealplan")
 app.get('/mealplan', (req, res) => {  
-    var mealsList = {};
+    var mealsList = [];
     connection.execute('SELECT * FROM meal_plan', function (error, results, fields) {
         if (error) throw error;
-        Object.keys(results[0]).forEach(meal => {
-            mealsList[meal] = results[0][meal];
+        results.forEach(meal => {
+            mealsList.push([meal['day'], meal['meal'], meal['who_cooks']]);
         }); 
+        console.log(mealsList);
         res.render("mealplan", {mealsList: mealsList});
+    }); 
+});
+
+app.post('/meal', bodyParser, (req, res) => {  
+    var meal = req.body.meal;
+    var who_cooks = req.body.who_cooks;
+    var day = req.query.day;
+    connection.query('UPDATE meal_plan SET meal=?, who_cooks=? WHERE day=?', [meal, who_cooks, day], function (error, results, fields) {
+        if (error) throw error;
+        res.redirect("/mealplan");
     }); 
 });
 
