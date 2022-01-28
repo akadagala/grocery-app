@@ -7,7 +7,7 @@
         <title>Payment</title>
     </head>
     <body>
-        <%- include('header'); %>
+        <%- include('header', {selected: 'payment'}); %>
         <div id="myDIV" class="header">
             <h2 style="margin:5px">payment</h2>
             <form method="POST" action="/addPayment">

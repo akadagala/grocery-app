@@ -1,9 +1,13 @@
+<!-- PureSnow -->
+<script src="/jslibs/PureSnow/PureSnow.js"></script>
+<div id="snow"></div>
+<% if(!locals.hidenav || (hidenav == null || hidenav === false)) {%>
 <div class="topnav">
-    <a id="groc" href="http://localhost:5000/">grocery list</a>
-    <a id="meal" href="http://localhost:5000/mealplan">meal plan</a>
-    <a id="payment" href="http://localhost:5000/payment">payment</a>
+    <a id="groc" href="http://localhost:5000/grocerylist" class="<%= selected === 'groc' ? 'selected' : '' %>">grocery list</a>
+    <a id="meal" href="http://localhost:5000/mealplan" class="<%= selected === 'meal' ? 'selected' : '' %>">meal plan</a>
+    <a id="payment" href="http://localhost:5000/payment" class="<%= selected === 'payment' ? 'selected' : '' %>">payment</a>
   </div>
-
+<% } %>
   <script>
     var list = document.querySelector('div');
     list.addEventListener('click', function(ev) {
