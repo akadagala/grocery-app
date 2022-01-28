@@ -182,3 +182,38 @@ form{
   font-size: 2.5rem;
   padding-bottom: 20px;
 }
+
+#login-form > div > button {
+  margin-bottom: 25px;
+}
+
+#login-header {
+  position: relative;
+  text-align: left;
+  left: 10%;
+}
+
+#login-container {
+  position: relative;
+  top: 30vh;
+  text-align: center;
+  margin: auto;
+  width: 25%;
+  min-width: 400px;
+  border: 2px solid rgba(245, 245, 245, 0.5);
+  border-radius: 15px;
+  background-color: rgba(24, 24, 24, 0.5);
+}
+
+.login-entry {
+  position: relative;
+  width: 100%;
+  margin-top: 5px;
+}
+
+.login-entry-label {
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+

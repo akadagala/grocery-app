@@ -8,19 +8,21 @@
     </head>
     <body>
         <%- include('header', {selected: 'login', hidenav: true}); %>
-        <h2>Login</h2>
-        <form action="/login/auth" method="post">
-            <div>
-                <label for="username">Username</label>
-                <input id="username" name="username" type="text" autocomplete="username" required />
-            </div>
-            <div>
-                <label for="current-password">Password</label>
-                <input id="current-password" name="password" type="password" autocomplete="off" required />
-            </div>
-            <div>
-                <button type="submit">Sign in</button>
-            </div>
-        </form>
+        <div id="login-container">
+            <h2 id="login-header">Login</h2>
+            <form action="/login/auth" method="post" id="login-form">
+                    <div>
+                        <label class="login-entry-label" for="username">Username</label>
+                        <input class="login-entry" id="username" name="username" type="text" autocomplete="username" required />
+                    </div>
+                    <div>
+                        <label class="login-entry-label" for="current-password">Password</label>
+                        <input class="login-entry" id="current-password" name="password" type="password" autocomplete="off" required />
+                    </div>
+                    <div>
+                        <button type="submit">Sign in</button>
+                    </div>
+            </form>
+        </div>
     </body>
 </html>
