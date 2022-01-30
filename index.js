@@ -6,8 +6,9 @@ const SqliteStore = sqliteStoreFactory(session);
 const bodyParser = require('body-parser').urlencoded();
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
-const crypto = require('crypto');
+const bcrypt = require('bcrypt');
 const totp = require('totp-generator');
+const PasswordGen = require('./passwordGen');
 
 const config = require(__dirname + '/config');
 const app = express(); 
@@ -27,20 +28,21 @@ let connection = new sqlite.Database(config.database_file, (err) => {
 
 // Configure session
 app.use(session({
-    secret: config.secret || 'fake secret',
+    secret: 'fake secret',
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
+    rolling: true,    
+    store: new SqliteStore({
+        driver: sqlite.Database,
+        path: __dirname + '/groceries_app.db',
+        ttl: 1000 * 60 * 60 * 24,
+        prefix: '',
+        cleanupInterval: 300000,
+    }),
     cookie: {
         maxAge: 1000 * 60 * 60 * 24,
         sneaky: "Don't be looking at my cookies, you silly little goose!"
     },
-    store: new SqliteStore({
-        driver: sqlite.Database,
-        path: __dirname + '/groceries_app.db',
-        ttl: 5000,
-        prefix: 'sess:',
-        cleanupInterval: 300000,
-    })
 }));
 
 // Configure passport for login
@@ -50,18 +52,19 @@ app.use(passport.session());
 passport.use(new LocalStrategy(
     function verify(username, password, cb) {
         connection.get('SELECT * FROM users WHERE uid = ?', [ username ], function(err, user) {
-        if (err) { return cb(err); }
-        if (!user) { return cb(null, false, { message: 'Incorrect username or password.' }); }
-    
-        // Convert secret (stored in password) to TOTP code
-        let token = totp(user.secret);
-        if(password === token) return cb(null, user);
-        return cb(null, false, { message: 'Incorrect username or password.' });
-    });
-  }));
+        bcrypt.compare(password, user.hashed_password, function(err, res) {
+            if (err) return cb(err);
+            if (res === false) {
+              return cb(null, false);
+            } else {
+              return cb(null, user);
+            }
+          });
+        });
+    }
+));
 
 passport.serializeUser(function(user, done) {
-    console.log(user);
     done(null, user.uid);
 });
 
@@ -72,17 +75,45 @@ passport.deserializeUser(function(id, done) {
       });
 });
 
+let _check_already_authed_mdlwr = (req, res, next) => {
+    if(req.isAuthenticated()) return res.redirect('/');
+    next();
+}
 
-app.get('/login', (req, res)=>{
+app.get('/login', _check_already_authed_mdlwr, (req, res)=>{
     return res.render('login');
-})
+});
 
-app.post('/login/auth', 
-    passport.authenticate('local', { failureRedirect: '/login' }),
-    function(req, res) {
-        return res.redirect('/');
-    }
-);
+app.post('/login/auth', _check_already_authed_mdlwr, passport.authenticate('local', { session: true, failureRedirect: '/login', successRedirect: '/' }));
+
+app.get('/register', function(req, res, next) {
+    return res.render('register');
+});
+
+app.post('/register/final', (req, res, _check_already_authed_mdlwr)=>{
+    connection.all('SELECT * FROM users', function (error, results, fields) {
+        if(error) return res.redirect('/register');
+        console.log("FUCK");
+        let found = false;
+        results.forEach(user => {
+            if(user.uid == req.body.username){
+                found = true;
+                return;
+            }
+        });
+        if(found) return res.redirect('/register');
+        console.log("SHIT");
+        console.log(req.body);
+        if(req.body.password != req.body['confirm-password']) return res.redirect('/register');
+        PasswordGen.generatePassword(req.body.password).then(pass_info => {
+            console.log(pass_info)
+            connection.run('INSERT INTO users (uid, hashed_password, salt) VALUES (?,?,?)', [ req.body.username, pass_info.hash, pass_info.salt ]);
+            return res.redirect('/');
+        })
+    });
+});
+
+
 
 // All routes after login are protected:
 let protect_routes_middleware = (req, res, next) => {
@@ -93,7 +124,7 @@ let protect_routes_middleware = (req, res, next) => {
 app.get('/logout', protect_routes_middleware, (req, res, next) => {
     req.logout();
     return res.redirect('/');
-})
+});
 
 // Route handler for GET requests to the root ("/")
 app.get('/', protect_routes_middleware, (req, res) => {
@@ -202,7 +233,7 @@ app.get('/check', protect_routes_middleware, (req, res) => {
 });
 
 // On startup, server starts listening for any attempts from a client to connect at port 5000
-app.listen(config.site_port, () => {            
+app.listen(config.site_port, () => {         
     console.log(`Now listening on port ${config.site_port}`); 
 });
 
