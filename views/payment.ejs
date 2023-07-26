@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <%- include('head') %>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
         <title>Payment</title>
     </head>
     <body>
-        <%- include('header', {selected: 'payment'}); %>
+        <%- include('header'); %>
         <div id="myDIV" class="header">
             <h2 style="margin:5px">payment</h2>
             <form method="POST" action="/addPayment">
